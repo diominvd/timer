@@ -7,6 +7,9 @@ class Controller:
 		self.load_time()
 		self.update_time_label()
 
+		# Assigning functions to buttons
+		self.view.start_timer_button.configure(command=self.start_timer_button_event)
+
 	def load_time(self) -> None:
 		data: dict = self.data.load_data(key=self.model.mode)
 		time: tuple = self.data.extract_data(data=data)
@@ -20,3 +23,15 @@ class Controller:
 		time = f"{minutes}:{seconds}" if self.model.hours == 0 else f"{hours}:{minutes}:{seconds}"
 		# Configure view:time_label
 		self.view.time_label.configure(text=time)
+
+	def start_timer_button_event(self) -> None:
+		self.model.start() # self.model.status = True
+		if self.model.status:
+			if (self.model.hours, self.model.minutes, self.model.seconds) == (0, 0, 0):
+				self.model.status = False
+				self.view.after_cancel(self.model.id)
+				return None
+			else:
+				self.model.count()
+			self.update_time_label()
+		self.model.id = self.view.after(2, self.start_timer_button_event) ### Test time value / default = 1000
