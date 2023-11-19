@@ -2,12 +2,10 @@ import customtkinter as ctk
 
 
 class View(ctk.CTk):
-	def __init__(self, model, controller):
+	def __init__(self):
 		super().__init__()
-		self.model = model
-		self.controller = controller
 
-		# Cinfigure View
+		# Configure View
 		self.title("TomatoTimer")
 		self.geometry("220x300")
 
@@ -18,7 +16,7 @@ class View(ctk.CTk):
 
 		# Widgets -> TabView -> Tab:"Timer"
 		self.time_label = ctk.CTkLabel(self.tabview.tab("Timer"))
-		self.timer_mode_menu = ctk.CTkOptionMenu(self.tabview.tab("Timer"))
+		self.timer_option_menu = ctk.CTkOptionMenu(self.tabview.tab("Timer"))
 		self.start_timer_button = ctk.CTkButton(self.tabview.tab('Timer'))
 		self.pause_timer_butoon = ctk.CTkButton(self.tabview.tab("Timer"))
 		self.reset_timer_button = ctk.CTkButton(self.tabview.tab("Timer"))
@@ -34,8 +32,8 @@ class View(ctk.CTk):
 		# Label:
 		self.time_label.configure(font=("Calibri", 30, "bold"), text="TIME:TEXT")
 		# OptionMenu:
-		self.timer_mode_menu.configure(font=("Calibri", 14), values=["work".title(), "break".title()], command=None)
-		self.timer_mode_menu.set("work".title())
+		self.timer_option_menu.configure(font=("Calibri", 14), values=["work".title(), "break".title()], command=None)
+		self.timer_option_menu.set("work".title())
 		# Buttons:
 		self.start_timer_button.configure(font=("Calibri", 14), text="Start", command=None)
 		self.pause_timer_butoon.configure(font=("Calibri", 14), text="Pause", command=None)
@@ -44,8 +42,7 @@ class View(ctk.CTk):
 	def palace_tab1_widgets(self) -> None:
 		self.tabview.pack(expand=True, fill="both")
 		self.time_label.pack(padx=0, pady=15)
-		self.timer_mode_menu.pack(padx=0, pady=5)
+		self.timer_option_menu.pack(padx=0, pady=5)
 		self.start_timer_button.pack(padx=0, pady=5)
 		self.pause_timer_butoon.pack(padx=0, pady=5)
 		self.reset_timer_button.pack(padx=0, pady=5)
-		
