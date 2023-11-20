@@ -20,5 +20,15 @@ class Model:
 		else:
 			self.seconds -= 1
 
-	def start(self) -> None:
-		self.status = True
+	def change_model_status(self, key: str) -> bool:
+		match key:
+			case "start":
+				self.status = True
+			case "pause":
+				if self.status:
+					self.status = False
+				elif not self.status:
+					self.status = True
+			case "reset":
+				self.status = False
+		return self.status

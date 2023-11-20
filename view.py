@@ -2,8 +2,10 @@ import customtkinter as ctk
 
 
 class View(ctk.CTk):
-	def __init__(self):
+	def __init__(self, controller):
 		super().__init__()
+		# Connect controller
+		self.controller = controller
 
 		# Configure View
 		self.title("TomatoTimer")
@@ -35,9 +37,9 @@ class View(ctk.CTk):
 		self.timer_option_menu.configure(font=("Calibri", 14), values=["work".title(), "break".title()], command=None)
 		self.timer_option_menu.set("work".title())
 		# Buttons:
-		self.start_timer_button.configure(font=("Calibri", 14), text="Start", command=None)
-		self.pause_timer_butoon.configure(font=("Calibri", 14), text="Pause", command=None)
-		self.reset_timer_button.configure(font=("Calibri", 14), text="Reset", command=None)
+		self.start_timer_button.configure(state="normal", font=("Calibri", 14), text="Start", command=self.start_timer_button_click_handler)
+		self.pause_timer_butoon.configure(state="disabled", font=("Calibri", 14), text="Pause", command=self.pause_timer_button_click_handler)
+		self.reset_timer_button.configure(state="disabled", font=("Calibri", 14), text="Reset", command=None)
 
 	def palace_tab1_widgets(self) -> None:
 		self.tabview.pack(expand=True, fill="both")
@@ -46,3 +48,16 @@ class View(ctk.CTk):
 		self.start_timer_button.pack(padx=0, pady=5)
 		self.pause_timer_butoon.pack(padx=0, pady=5)
 		self.reset_timer_button.pack(padx=0, pady=5)
+
+	def start_timer_button_click_handler(self) -> None:
+		# Configure timer buttons:state
+		self.start_timer_button.configure(state="disabled")
+		self.pause_timer_butoon.configure(state="normal")
+		self.reset_timer_button.configure(state="normal")
+		# Call start event
+		self.controller.start_timer_button_event()
+
+	def pause_timer_button_click_handler(self) -> None:
+		# Call pause event
+		self.controller.pause_timer_button_event()
+

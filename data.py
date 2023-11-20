@@ -20,5 +20,5 @@ class Data:
 
 	# data = {hours: n, minutes: n, seconds: n}
 	def extract_data(self, data: dict) -> tuple:
-		return (data["hours"], data["minutes"], data["seconds"])
+		return data["hours"], data["minutes"], data["seconds"]
 		

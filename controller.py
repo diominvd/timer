@@ -1,14 +1,12 @@
 class Controller:
 	def __init__(self, data, model, view):
+		# Connect data, model, view
 		self.data = data
 		self.model = model
 		self.view = view
 
 		self.load_time()
 		self.update_time_label()
-
-		# Assigning functions to buttons
-		self.view.start_timer_button.configure(command=self.start_timer_button_event)
 
 	def load_time(self) -> None:
 		data: dict = self.data.load_data(key=self.model.mode)
@@ -25,13 +23,27 @@ class Controller:
 		self.view.time_label.configure(text=time)
 
 	def start_timer_button_event(self) -> None:
-		self.model.start() # self.model.status = True
+		self.model.change_model_status(key="start")
+		self.update_timer()
+
+	def update_timer(self) -> None:
+		# self.model.status = True
 		if self.model.status:
+			# Check end of timer
 			if (self.model.hours, self.model.minutes, self.model.seconds) == (0, 0, 0):
 				self.model.status = False
-				self.view.after_cancel(self.model.id)
+				self.view.after_cancel(self.model.id) # Stop model.count()
 				return None
 			else:
 				self.model.count()
 			self.update_time_label()
-		self.model.id = self.view.after(2, self.start_timer_button_event) ### Test time value / default = 1000
+		self.model.id = self.view.after(1000, self.update_timer) ### Test time value / default = 1000
+
+	def pause_timer_button_event(self) -> None:
+		self.model.change_model_status(key="pause")
+		self.pause_timer()
+
+	def pause_timer(self) -> None:
+		text = "Pause" if self.model.status == True else "Resume"
+		# Configure pause_button:text
+		self.view.pause_timer_butoon.configure(text=text)
