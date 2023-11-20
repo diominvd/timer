@@ -32,7 +32,7 @@ class View(ctk.CTk):
 		self.tabview._segmented_button._buttons_dict["Timer"].configure(font=("Calibri", 14)) # TabView:Tab:Timer
 		self.tabview._segmented_button._buttons_dict["Settings"].configure(font=("Calibri", 14)) # TabView:Tab:Settings
 		# Label:
-		self.time_label.configure(font=("Calibri", 30, "bold"), text="TIME:TEXT")
+		self.time_label.configure(font=("Calibri", 30, "bold"), text=None)
 		# OptionMenu:
 		self.timer_option_menu.configure(font=("Calibri", 14), values=["work".title(), "break".title()], command=self.timer_option_menu_choice_handler)
 		self.timer_option_menu.set("work".title())
@@ -64,4 +64,3 @@ class View(ctk.CTk):
 	def reset_timer_button_click_handler(self) -> None:
 		# Call reset event
 		self.controller.reset_timer_button_event()
-
