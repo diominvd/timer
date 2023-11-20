@@ -14,7 +14,7 @@ class View(ctk.CTk):
 		self.tabview.add("Timer")
 		self.tabview.add("Settings")
 
-		# Widgets -> TabView -> Tab:"Timer"
+		# Widgets -> Tab:"Timer" -> TabView
 		self.time_label = ctk.CTkLabel(self.tabview.tab("Timer"))
 		self.timer_option_menu = ctk.CTkOptionMenu(self.tabview.tab("Timer"))
 		self.start_timer_button = ctk.CTkButton(self.tabview.tab('Timer'))
