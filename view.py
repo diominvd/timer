@@ -23,14 +23,18 @@ class View(ctk.CTk):
 		self.pause_timer_butoon = ctk.CTkButton(self.tabview.tab("Timer"))
 		self.reset_timer_button = ctk.CTkButton(self.tabview.tab("Timer"))
 
-		# Place widgets
-		self.cinfigure_tab1_widgets()
-		self.palace_tab1_widgets()
+		# Widgets -> Tab:"Settings" -> TabView
+		pass
 
-	def cinfigure_tab1_widgets(self) -> None:
+		# Place widgets
+		self.configure_tab1_widgets()
+		self.configure_tab2_widgets()
+		self.palace_tab1_widgets()
+		self.place_tab2_widgets()
+
+	def configure_tab1_widgets(self) -> None:
 		# TabView:
 		self.tabview._segmented_button._buttons_dict["Timer"].configure(font=("Calibri", 14)) # TabView:Tab:Timer
-		self.tabview._segmented_button._buttons_dict["Settings"].configure(font=("Calibri", 14)) # TabView:Tab:Settings
 		# Label:
 		self.time_label.configure(font=("Calibri", 30, "bold"), text=None)
 		# OptionMenu:
@@ -41,6 +45,9 @@ class View(ctk.CTk):
 		self.pause_timer_butoon.configure(state="disabled", font=("Calibri", 14), text="Pause", command=self.pause_timer_button_click_handler)
 		self.reset_timer_button.configure(state="disabled", font=("Calibri", 14), text="Reset", command=self.reset_timer_button_click_handler)
 
+	def configure_tab2_widgets(self) -> None:
+		pass
+
 	def palace_tab1_widgets(self) -> None:
 		self.tabview.pack(expand=True, fill="both")
 		self.time_label.pack(padx=0, pady=15)
@@ -48,6 +55,9 @@ class View(ctk.CTk):
 		self.start_timer_button.pack(padx=0, pady=5)
 		self.pause_timer_butoon.pack(padx=0, pady=5)
 		self.reset_timer_button.pack(padx=0, pady=5)
+
+	def place_tab2_widgets(self) -> None:
+		pass
 
 	def timer_option_menu_choice_handler(self, choice) -> None:
 		#  Call choice event

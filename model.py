@@ -1,8 +1,8 @@
 class Model:
 	def __init__(self, mode: str):
 		# Configure timer
-		self.id: str = None
 		self.mode: str = mode
+		self.id: str = None
 		self.status: bool = False
 		self.hours: int = None
 		self.minutes: int = None
