@@ -24,7 +24,13 @@ class View(ctk.CTk):
 		self.reset_timer_button = ctk.CTkButton(self.tabview.tab("Timer"))
 
 		# Widgets -> Tab:"Settings" -> TabView
-		pass
+		self.settings_timer_option_menu = ctk.CTkOptionMenu(self.tabview.tab("Settings"))
+		self.minutes_label = ctk.CTkLabel(self.tabview.tab("Settings"))
+		self.minutes_entry = ctk.CTkEntry(self.tabview.tab("Settings"))
+		self.seconds_label = ctk.CTkLabel(self.tabview.tab("Settings"))
+		self.seconds_entry = ctk.CTkEntry(self.tabview.tab("Settings"))
+		self.edit_button = ctk.CTkButton(self.tabview.tab("Settings"))
+		self.save_button = ctk.CTkButton(self.tabview.tab("Settings"))
 
 		# Place widgets
 		self.configure_tab1_widgets()
@@ -46,7 +52,20 @@ class View(ctk.CTk):
 		self.reset_timer_button.configure(state="disabled", font=("Calibri", 14), text="Reset", command=self.reset_timer_button_click_handler)
 
 	def configure_tab2_widgets(self) -> None:
-		pass
+		# TabView:
+		self.tabview._segmented_button._buttons_dict["Settings"].configure(font=("Calibri", 14)) # TabView:Tab:Settings
+		# OptionMenu:
+		self.settings_timer_option_menu.configure(font=("Calibri", 14), values=["work".title(), "break".title()], command=None)
+		self.settings_timer_option_menu.set("work".title())
+		# Label:
+		self.minutes_label.configure(font=("Calibri", 14), text="Minutes:")
+		self.seconds_label.configure(font=("Calibri", 14), text="Seconds:")
+		# Entry
+		self.minutes_entry.configure(font=("Calibri", 14))
+		self.seconds_entry.configure(font=("Calibri", 14))
+		# Buttons
+		self.edit_button.configure(font=("Calibri", 14), text="Save")
+		self.save_button.configure(font=("Calibri", 14), text="Edit")
 
 	def palace_tab1_widgets(self) -> None:
 		self.tabview.pack(expand=True, fill="both")
@@ -57,7 +76,13 @@ class View(ctk.CTk):
 		self.reset_timer_button.pack(padx=0, pady=5)
 
 	def place_tab2_widgets(self) -> None:
-		pass
+		self.settings_timer_option_menu.grid(row=0, column=0, columnspan=2, padx=0, pady=0)
+		self.minutes_label.grid(row=1, column=0, padx=0, pady=0)
+		self.minutes_entry.grid(row=1, column=1, padx=0, pady=0)
+		self.seconds_label.grid(row=2, column=0, padx=0, pady=0)
+		self.seconds_entry.grid(row=2, column=1, padx=0, pady=0)
+		self.edit_button.grid(row=3, column=0, columnspan=2, padx=0, pady=0)
+		self.save_button.grid(row=4, column=0, columnspan=2, padx=0, pady=0)
 
 	def timer_option_menu_choice_handler(self, choice) -> None:
 		#  Call choice event
