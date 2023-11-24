@@ -32,6 +32,7 @@ class View(ctk.CTk):
 		self.settings_edit_button = ctk.CTkButton(self.tabview.tab("Settings"))
 		self.settings_save_button = ctk.CTkButton(self.tabview.tab("Settings"))
 		self.settings_cancel_button = ctk.CTkButton(self.tabview.tab("Settings"))
+		self.settings_hint_label = ctk.CTkLabel(self.tabview.tab('Settings'))
 
 		# Place widgets
 		self.configure_tab1_widgets()
@@ -62,6 +63,7 @@ class View(ctk.CTk):
 		# Label:
 		self.settings_time_label.configure(font=("Calibri", 30, "bold"), text=None)
 		self.settings_time_label.bind("<MouseWheel>", None)
+		self.settings_hint_label.configure(font=("Calibri", 13), text_color="#cbcbcb", text="Scroll label to edit")
 		# Buttons
 		self.settings_edit_button.configure(state="normal", font=("Calibri", 14), text="Edit", command=self.settings_edit_button_click_handler)
 		self.settings_save_button.configure(state="disabled", font=("Calibri", 14), text="Save", command=self.settings_save_button_click_handler)

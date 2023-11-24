@@ -5,17 +5,17 @@ class Controller:
 		self.model = model
 		self.view = view
 
-		self.load_time()
-		self.load_settings_time()
+		self.load_timer_time()
+		self.load_settings_timer_time()
 		self.update_time_label()
 		self.update_settings_time_label()
 
-	def load_time(self) -> None:
+	def load_timer_time(self) -> None:
 		data: dict = self.data.load_data(key=self.view.timer_option_menu.get().lower())
 		time: tuple = self.data.extract_data(data=data)
 		self.model.hours, self.model.minutes, self.model.seconds = time
 
-	def load_settings_time(self) -> None:
+	def load_settings_timer_time(self) -> None:
 		data: dict = self.data.load_data(key=self.view.settings_timer_option_menu.get().lower())
 		time: tuple = self.data.extract_data(data=data)
 		self.model.settings_hours, self.model.settings_minutes, self.model.settings_seconds = time
@@ -95,7 +95,7 @@ class Controller:
 			pass
 		finally:
 			self.model.id = None
-			self.load_time()
+			self.load_timer_time()
 			self.update_time_label()
 
 	def settings_time_label_scroll_event(self, event) -> None:
@@ -123,16 +123,20 @@ class Controller:
 		self.update_settings_time_label()
 
 	def settings_timer_option_menu_event(self) -> None:
+		self.view.settings_time_label.unbind("<MouseWheel>")
 		self.view.settings_edit_button.configure(state="normal")
 		self.view.settings_save_button.configure(state="disabled")
-		self.load_settings_time()
+		self.view.settings_cancel_button.pack_forget()
+		self.view.settings_hint_label.pack_forget()
+		self.load_settings_timer_time()
 		self.update_settings_time_label()
 
 	def settings_edit_button_event(self) -> None:
 		self.view.settings_time_label.bind("<MouseWheel>", self.view.settings_time_label_scroll_handler)
 		self.view.settings_edit_button.configure(state="disabled")
 		self.view.settings_save_button.configure(state="normal")
-		self.view.settings_cancel_button.pack(padx=0, pady=self.view.PADY)
+		self.view.settings_cancel_button.pack(padx=0, pady=(self.view.PADY, 0))
+		self.view.settings_hint_label.pack(padx=0, pady=0)
 
 	def settings_save_button_event(self) -> None:
 		mode: str = self.view.settings_timer_option_menu.get().lower()
@@ -146,13 +150,21 @@ class Controller:
 		self.view.settings_edit_button.configure(state="normal")
 		self.view.settings_save_button.configure(state="disabled")
 		self.view.settings_cancel_button.pack_forget()
-		self.load_settings_time()
+		self.view.settings_hint_label.pack_forget()
+		self.load_settings_timer_time()
 		self.update_settings_time_label()
+		# Check timer status
+		if self.model.status:
+			pass
+		else:
+			self.load_timer_time()
+			self.update_time_label()
 
 	def settings_cancel_button_event(self) -> None:
 		self.view.settings_time_label.unbind("<MouseWheel>")
 		self.view.settings_edit_button.configure(state="normal")
 		self.view.settings_save_button.configure(state="disabled")
 		self.view.settings_cancel_button.pack_forget()
-		self.load_settings_time()
+		self.view.settings_hint_label.pack_forget()
+		self.load_settings_timer_time()
 		self.update_settings_time_label()
