@@ -24,13 +24,10 @@ class View(ctk.CTk):
 		self.reset_timer_button = ctk.CTkButton(self.tabview.tab("Timer"))
 
 		# Widgets -> Tab:"Settings" -> TabView
+		self.settings_time_label = ctk.CTkLabel(self.tabview.tab("Settings"))
 		self.settings_timer_option_menu = ctk.CTkOptionMenu(self.tabview.tab("Settings"))
-		self.minutes_label = ctk.CTkLabel(self.tabview.tab("Settings"))
-		self.minutes_entry = ctk.CTkEntry(self.tabview.tab("Settings"))
-		self.seconds_label = ctk.CTkLabel(self.tabview.tab("Settings"))
-		self.seconds_entry = ctk.CTkEntry(self.tabview.tab("Settings"))
-		self.edit_button = ctk.CTkButton(self.tabview.tab("Settings"))
-		self.save_button = ctk.CTkButton(self.tabview.tab("Settings"))
+		self.settings_edit_button = ctk.CTkButton(self.tabview.tab("Settings"))
+		self.settings_save_button = ctk.CTkButton(self.tabview.tab("Settings"))
 
 		# Place widgets
 		self.configure_tab1_widgets()
@@ -41,6 +38,7 @@ class View(ctk.CTk):
 	def configure_tab1_widgets(self) -> None:
 		# TabView:
 		self.tabview._segmented_button._buttons_dict["Timer"].configure(font=("Calibri", 14)) # TabView:Tab:Timer
+		self.tabview.tab("Settings").grid_columnconfigure(0, weight=1)
 		# Label:
 		self.time_label.configure(font=("Calibri", 30, "bold"), text=None)
 		# OptionMenu:
@@ -55,17 +53,14 @@ class View(ctk.CTk):
 		# TabView:
 		self.tabview._segmented_button._buttons_dict["Settings"].configure(font=("Calibri", 14)) # TabView:Tab:Settings
 		# OptionMenu:
-		self.settings_timer_option_menu.configure(font=("Calibri", 14), values=["work".title(), "break".title()], command=None)
+		self.settings_timer_option_menu.configure(font=("Calibri", 14, "bold"), values=["work".title(), "break".title()], command=None)
 		self.settings_timer_option_menu.set("work".title())
 		# Label:
-		self.minutes_label.configure(font=("Calibri", 14), text="Minutes:")
-		self.seconds_label.configure(font=("Calibri", 14), text="Seconds:")
-		# Entry
-		self.minutes_entry.configure(font=("Calibri", 14))
-		self.seconds_entry.configure(font=("Calibri", 14))
+		self.settings_time_label.configure(font=("Calibri", 30), text="TIME")
+		self.settings_time_label.bind("<MouseWheel>", self.settings_time_label_scroll_handler)
 		# Buttons
-		self.edit_button.configure(font=("Calibri", 14), text="Save")
-		self.save_button.configure(font=("Calibri", 14), text="Edit")
+		self.settings_edit_button.configure(font=("Calibri", 14), text="Save")
+		self.settings_save_button.configure(font=("Calibri", 14), text="Edit")
 
 	def palace_tab1_widgets(self) -> None:
 		self.tabview.pack(expand=True, fill="both")
@@ -76,13 +71,10 @@ class View(ctk.CTk):
 		self.reset_timer_button.pack(padx=0, pady=5)
 
 	def place_tab2_widgets(self) -> None:
-		self.settings_timer_option_menu.grid(row=0, column=0, columnspan=2, padx=0, pady=0)
-		self.minutes_label.grid(row=1, column=0, padx=0, pady=0)
-		self.minutes_entry.grid(row=1, column=1, padx=0, pady=0)
-		self.seconds_label.grid(row=2, column=0, padx=0, pady=0)
-		self.seconds_entry.grid(row=2, column=1, padx=0, pady=0)
-		self.edit_button.grid(row=3, column=0, columnspan=2, padx=0, pady=0)
-		self.save_button.grid(row=4, column=0, columnspan=2, padx=0, pady=0)
+		self.settings_time_label.grid(row=0, column=0, padx=0, pady=0)
+		self.settings_timer_option_menu.grid(row=1, column=0, padx=0, pady=0)
+		self.settings_edit_button.grid(row=2, column=0, padx=0, pady=0)
+		self.settings_save_button.grid(row=3, column=0, padx=0, pady=0)
 
 	def timer_option_menu_choice_handler(self, choice) -> None:
 		#  Call choice event
@@ -99,3 +91,6 @@ class View(ctk.CTk):
 	def reset_timer_button_click_handler(self) -> None:
 		# Call reset event
 		self.controller.reset_timer_button_event()
+
+	def settings_time_label_scroll_handler(self, event) -> None:
+		self.controller.settings_time_label_scroll_event(event)

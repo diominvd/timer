@@ -18,7 +18,7 @@ class Data:
 			case _:
 				raise ValueError("Incorrect key value: ('work' or 'break')")
 
-	def data_analysis(self, data: dict, key: str) -> None:
+	def data_analysis(self, data: dict, key: str) -> dict:
 		hours: int = data[key]["hours"]
 		minutes: int = data[key]["minutes"]
 		seconds: int = data[key]["seconds"]

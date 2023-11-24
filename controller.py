@@ -6,13 +6,20 @@ class Controller:
 		self.view = view
 
 		self.load_time()
+		self.load_settings_time()
 		self.update_time_label()
+		self.update_settings_time_label()
 
 	def load_time(self) -> None:
-		data: dict = self.data.load_data(key=self.model.mode)
+		data: dict = self.data.load_data(key=self.view.timer_option_menu.get().lower())
 		time: tuple = self.data.extract_data(data=data)
 		self.model.hours, self.model.minutes, self.model.seconds = time
-		
+
+	def load_settings_time(self) -> None:
+		data: dict = self.data.load_data(key=self.view.settings_timer_option_menu.get().lower())
+		time: tuple = self.data.extract_data(data=data)
+		self.model.settings_hours, self.model.settings_minutes, self.model.settings_seconds = time
+
 	def update_time_label(self) -> None:
 		# Format time for output it to time_label
 		hours: str = f"0{self.model.hours}" if self.model.hours < 10 else f"{self.model.hours}"
@@ -21,6 +28,15 @@ class Controller:
 		time = f"{minutes}:{seconds}" if self.model.hours == 0 else f"{hours}:{minutes}:{seconds}"
 		# Configure view:time_label
 		self.view.time_label.configure(text=time)
+
+	def update_settings_time_label(self) -> None:
+		# Format time for output it to settings_time_label
+		hours: str = f"0{self.model.settings_hours}" if self.model.settings_hours < 10 else f"{self.model.settings_hours}"
+		minutes: str = f"0{self.model.settings_minutes}" if self.model.settings_minutes < 10 else f"{self.model.settings_minutes}"
+		seconds: str = f"0{self.model.settings_seconds}" if self.model.settings_seconds < 10 else f"{self.model.settings_seconds}"
+		time = f"{minutes}:{seconds}" if self.model.settings_hours == 0 else f"{hours}:{minutes}:{seconds}"
+		# Configure view:time_label
+		self.view.settings_time_label.configure(text=time)
 
 	def timer_option_menu_event(self, choice: str) -> str:
 		match choice:
@@ -81,3 +97,28 @@ class Controller:
 			self.model.id = None
 			self.load_time()
 			self.update_time_label()
+
+	def settings_time_label_scroll_event(self, event) -> None:
+		match event.delta:
+			case 120:
+				self.model.settings_minutes += 1
+			case -120:
+				if self.model.settings_hours == 0 and self.model.settings_minutes == 1:
+					pass
+				else:
+					self.model.settings_minutes -= 1
+
+		mode: str = self.view.settings_timer_option_menu.get().lower()
+		data: dict = {
+			f"{mode}": 
+				{
+					"hours": self.model.settings_hours,
+					"minutes": self.model.settings_minutes,
+					"seconds": self.model.settings_seconds
+				}
+			}
+		time: dict = self.data.data_analysis(data=data, key=mode)
+		self.model.settings_hours = time["hours"]
+		self.model.settings_minutes = time["minutes"]
+		self.model.settings_seconds = time["seconds"]
+		self.update_settings_time_label()

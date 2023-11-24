@@ -7,6 +7,9 @@ class Model:
 		self.hours: int = None
 		self.minutes: int = None
 		self.seconds: int = None
+		self.settings_hours: int = None
+		self.settings_minutes: int = None
+		self.settings_seconds: int = None
 
 	def count(self) -> None:
 		if self.seconds == 0:
