@@ -103,6 +103,7 @@ class Controller:
 			case 120:
 				self.model.settings_minutes += 1
 			case -120:
+				# Check time limit
 				if self.model.settings_hours == 0 and self.model.settings_minutes == 1:
 					pass
 				else:
@@ -118,7 +119,40 @@ class Controller:
 				}
 			}
 		time: dict = self.data.data_analysis(data=data, key=mode)
-		self.model.settings_hours = time["hours"]
-		self.model.settings_minutes = time["minutes"]
-		self.model.settings_seconds = time["seconds"]
+		self.model.settings_hours, self.model.settings_minutes, self.model.settings_seconds = tuple(time.values())
+		self.update_settings_time_label()
+
+	def settings_timer_option_menu_event(self) -> None:
+		self.view.settings_edit_button.configure(state="normal")
+		self.view.settings_save_button.configure(state="disabled")
+		self.load_settings_time()
+		self.update_settings_time_label()
+
+	def settings_edit_button_event(self) -> None:
+		self.view.settings_time_label.bind("<MouseWheel>", self.view.settings_time_label_scroll_handler)
+		self.view.settings_edit_button.configure(state="disabled")
+		self.view.settings_save_button.configure(state="normal")
+		self.view.settings_cancel_button.pack(padx=0, pady=self.view.PADY)
+
+	def settings_save_button_event(self) -> None:
+		mode: str = self.view.settings_timer_option_menu.get().lower()
+		data: dict = self.data.load_data() # Return all data
+		data[mode]["hours"] = self.model.settings_hours
+		data[mode]["minutes"] = self.model.settings_minutes
+		data[mode]["seconds"] = self.model.settings_seconds
+		self.data.write_data(data)
+		# Configure view
+		self.view.settings_time_label.unbind("<MouseWheel>")
+		self.view.settings_edit_button.configure(state="normal")
+		self.view.settings_save_button.configure(state="disabled")
+		self.view.settings_cancel_button.pack_forget()
+		self.load_settings_time()
+		self.update_settings_time_label()
+
+	def settings_cancel_button_event(self) -> None:
+		self.view.settings_time_label.unbind("<MouseWheel>")
+		self.view.settings_edit_button.configure(state="normal")
+		self.view.settings_save_button.configure(state="disabled")
+		self.view.settings_cancel_button.pack_forget()
+		self.load_settings_time()
 		self.update_settings_time_label()

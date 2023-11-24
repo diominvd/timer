@@ -1,13 +1,22 @@
 import json
-
+import os
 
 class Data:
 	def __init__(self):
-		pass
+		self.create_data_file()
+
+	def create_data_file(self) -> None:
+		if os.path.isfile("data.json"):
+			pass
+		else:
+			file = open("data.json", "w")
+			data: dict = {"work": {"hours": 0, "minutes": 45, "seconds": 0}, "break": {"hours": 0, "minutes": 5, "seconds": 0}}
+			json.dump(data, file, indent=4)
 
 	def load_data(self, key=None) -> dict:
 		with open("data.json", "r") as file:
 			data: dict = json.load(file) # Whole data
+			file.close()
 		match key:
 			case "work":
 				return self.data_analysis(data=data, key=key) # Work data
@@ -30,4 +39,8 @@ class Data:
 	# data = {hours: n, minutes: n, seconds: n}
 	def extract_data(self, data: dict) -> tuple:
 		return data["hours"], data["minutes"], data["seconds"]
-		
+
+	def write_data(self, data: dict) -> None:
+		with open("data.json", "w") as file:
+			json.dump(data, file, indent=4)
+			file.close()
