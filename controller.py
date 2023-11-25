@@ -50,9 +50,9 @@ class Controller:
 
 	def start_timer_button_event(self) -> None:
 		# Configure timer buttons:state
-		self.view.start_timer_button.configure(state="disabled")
-		self.view.pause_timer_butoon.configure(state="normal")
-		self.view.reset_timer_button.configure(state="normal")
+		self.view.start_timer_button.configure(state="disabled", fg_color=self.view.ui.CLR_DISABLED)
+		self.view.pause_timer_butoon.configure(state="normal", fg_color=self.view.ui.CLR_ACCENT_1)
+		self.view.reset_timer_button.configure(state="normal", fg_color=self.view.ui.CLR_ACCENT_1)
 		self.model.change_model_status(key="start")
 		self.update_timer()
 
@@ -83,9 +83,9 @@ class Controller:
 
 	def reset_timer(self) -> None:
 		# Configure timer buttons:state
-		self.view.start_timer_button.configure(state="normal")
-		self.view.pause_timer_butoon.configure(state="disabled")
-		self.view.reset_timer_button.configure(state="disabled")
+		self.view.start_timer_button.configure(state="normal", fg_color=self.view.ui.CLR_ACCENT_1)
+		self.view.pause_timer_butoon.configure(state="disabled", fg_color=self.view.ui.CLR_DISABLED)
+		self.view.reset_timer_button.configure(state="disabled", fg_color=self.view.ui.CLR_DISABLED)
 		# Configure pause_button:text
 		self.view.pause_timer_butoon.configure(text="Pause")
 		# Stop update_timer
@@ -99,16 +99,7 @@ class Controller:
 			self.update_time_label()
 
 	def settings_time_label_scroll_event(self, event) -> None:
-		match event.delta:
-			case 120:
-				self.model.settings_minutes += 1
-			case -120:
-				# Check time limit
-				if self.model.settings_hours == 0 and self.model.settings_minutes == 1:
-					pass
-				else:
-					self.model.settings_minutes -= 1
-
+		self.model.count_settings(event)
 		mode: str = self.view.settings_timer_option_menu.get().lower()
 		data: dict = {
 			f"{mode}": 
@@ -124,8 +115,8 @@ class Controller:
 
 	def settings_timer_option_menu_event(self) -> None:
 		self.view.settings_time_label.unbind("<MouseWheel>")
-		self.view.settings_edit_button.configure(state="normal")
-		self.view.settings_save_button.configure(state="disabled")
+		self.view.settings_edit_button.configure(state="normal", fg_color=self.view.ui.CLR_ACCENT_1)
+		self.view.settings_save_button.configure(state="disabled", fg_color=self.view.ui.CLR_DISABLED)
 		self.view.settings_cancel_button.pack_forget()
 		self.view.settings_hint_label.pack_forget()
 		self.load_settings_timer_time()
@@ -133,9 +124,9 @@ class Controller:
 
 	def settings_edit_button_event(self) -> None:
 		self.view.settings_time_label.bind("<MouseWheel>", self.view.settings_time_label_scroll_handler)
-		self.view.settings_edit_button.configure(state="disabled")
-		self.view.settings_save_button.configure(state="normal")
-		self.view.settings_cancel_button.pack(padx=0, pady=(self.view.PADY, 0))
+		self.view.settings_edit_button.configure(state="disabled", fg_color=self.view.ui.CLR_DISABLED)
+		self.view.settings_save_button.configure(state="normal", fg_color=self.view.ui.CLR_ACCENT_1)
+		self.view.settings_cancel_button.pack(padx=0, pady=(self.view.ui.PADY, 0))
 		self.view.settings_hint_label.pack(padx=0, pady=0)
 
 	def settings_save_button_event(self) -> None:
@@ -147,8 +138,8 @@ class Controller:
 		self.data.write_data(data)
 		# Configure view
 		self.view.settings_time_label.unbind("<MouseWheel>")
-		self.view.settings_edit_button.configure(state="normal")
-		self.view.settings_save_button.configure(state="disabled")
+		self.view.settings_edit_button.configure(state="normal", fg_color=self.view.ui.CLR_ACCENT_1)
+		self.view.settings_save_button.configure(state="disabled", fg_color=self.view.ui.CLR_DISABLED)
 		self.view.settings_cancel_button.pack_forget()
 		self.view.settings_hint_label.pack_forget()
 		self.load_settings_timer_time()
@@ -162,8 +153,8 @@ class Controller:
 
 	def settings_cancel_button_event(self) -> None:
 		self.view.settings_time_label.unbind("<MouseWheel>")
-		self.view.settings_edit_button.configure(state="normal")
-		self.view.settings_save_button.configure(state="disabled")
+		self.view.settings_edit_button.configure(state="normal", fg_color=self.view.ui.CLR_ACCENT_1)
+		self.view.settings_save_button.configure(state="disabled", fg_color=self.view.ui.CLR_DISABLED)
 		self.view.settings_cancel_button.pack_forget()
 		self.view.settings_hint_label.pack_forget()
 		self.load_settings_timer_time()

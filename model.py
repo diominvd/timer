@@ -23,6 +23,17 @@ class Model:
 		else:
 			self.seconds -= 1
 
+	def count_settings(self, event) -> None:
+		match event.delta:
+			case 120:
+				self.settings_minutes += 1
+			case -120:
+				# Check time limit
+				if self.settings_hours == 0 and self.settings_minutes == 1:
+					pass
+				else:
+					self.settings_minutes -= 1
+
 	def change_model_status(self, key: str) -> bool:
 		match key:
 			case "start":
