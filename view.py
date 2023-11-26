@@ -5,16 +5,16 @@ class UI():
 	def __init__(self):
 		self.PADX: int = 5
 		self.PADY: int = 5
-		self.FONT_BUTTONS: str = "Fredoka"
-		self.CLR_ACCENT_1: str = "#00a5ff"
-		self.CLR_ACCENT_2: str = "#008fdb"
-		self.CLR_ACCENT_3: str = "#0077b8"
-		self.CLR_DISABLED: str = "#66b9e6"
-		self.CLR_BUTTON_TEXT_NORMAL: str = "#fcfcfc"
-		self.CLR_BUTTON_TEXT_DISABLED: str = "#dadada"
+		self.FONT_BUTTONS: str = "Staatliches"
+		self.CLR_ACCENT_1: str = "#c2ff1c"
+		self.CLR_ACCENT_2: str = "#ace219"
+		self.CLR_ACCENT_3: str = "#99c916"
+		self.CLR_DISABLED: str = "#daff73"
+		self.CLR_BUTTON_TEXT_NORMAL: str = "#383838"
+		self.CLR_BUTTON_TEXT_DISABLED: str = "#4e4e4e"
 
 		ctk.FontManager.load_font("src/BakbakOne-Regular.ttf")
-		ctk.FontManager.load_font("src/Fredoka-Regular.ttf")
+		ctk.FontManager.load_font("src/Staatliches-Regular.ttf")
 
 
 class View(ctk.CTk):
@@ -27,6 +27,9 @@ class View(ctk.CTk):
 		# Configure View
 		self.title("TomatoTimer")
 		self.geometry("220x310")
+		self.eval('tk::PlaceWindow . center')
+		self.resizable(width=False, height=False)
+		ctk.set_appearance_mode("dark")
 
 		# TabView -> view
 		self.tabview = ctk.CTkTabview(self)
@@ -59,22 +62,22 @@ class View(ctk.CTk):
 
 	def configure_tab1_widgets(self) -> None:
 		# TabView:
-		self.tabview._segmented_button._buttons_dict["Timer"].configure(font=(self.ui.FONT_BUTTONS, 12)) # TabView:Tab:Timer
+		self.tabview._segmented_button._buttons_dict["Timer"].configure(font=(self.ui.FONT_BUTTONS, 12), text_color=self.ui.CLR_BUTTON_TEXT_NORMAL) # TabView:Tab:Timer
+		# OptionMenu:
+		self.timer_option_menu.configure(font=(self.ui.FONT_BUTTONS, 14, "normal"), text_color=self.ui.CLR_BUTTON_TEXT_NORMAL, fg_color=self.ui.CLR_ACCENT_1, button_color=self.ui.CLR_ACCENT_2, button_hover_color=self.ui.CLR_ACCENT_3, values=["work".title(), "break".title()], command=self.timer_option_menu_choice_handler)
+		self.timer_option_menu.set("work".title())
 		# Label:
 		self.time_label.configure(font=("Bakbak One", 40, "bold"), text=None)
-		# OptionMenu:
-		self.timer_option_menu.configure(font=(self.ui.FONT_BUTTONS, 14, "normal"), fg_color=self.ui.CLR_ACCENT_1, button_color=self.ui.CLR_ACCENT_2, button_hover_color=self.ui.CLR_ACCENT_3, values=["work".title(), "break".title()], command=self.timer_option_menu_choice_handler)
-		self.timer_option_menu.set("work".title())
 		# Buttons:
-		self.start_timer_button.configure(state="normal", font=(self.ui.FONT_BUTTONS, 14), text="Start", text_color=self.ui.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.ui.CLR_BUTTON_TEXT_DISABLED, fg_color=self.ui.CLR_ACCENT_1, hover_color=self.ui.CLR_ACCENT_3,  command=self.start_timer_button_click_handler)
+		self.start_timer_button.configure(state="normal", font=(self.ui.FONT_BUTTONS, 14), text="START", text_color=self.ui.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.ui.CLR_BUTTON_TEXT_DISABLED, fg_color=self.ui.CLR_ACCENT_1, hover_color=self.ui.CLR_ACCENT_3,  command=self.start_timer_button_click_handler)
 		self.pause_timer_butoon.configure(state="disabled", font=(self.ui.FONT_BUTTONS, 14), text="Pause", text_color=self.ui.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.ui.CLR_BUTTON_TEXT_DISABLED, fg_color=self.ui.CLR_DISABLED, hover_color=self.ui.CLR_ACCENT_3,  command=self.pause_timer_button_click_handler)
 		self.reset_timer_button.configure(state="disabled", font=(self.ui.FONT_BUTTONS, 14), text="Reset", text_color=self.ui.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.ui.CLR_BUTTON_TEXT_DISABLED, fg_color=self.ui.CLR_DISABLED, hover_color=self.ui.CLR_ACCENT_3,  command=self.reset_timer_button_click_handler)
 
 	def configure_tab2_widgets(self) -> None:
 		# TabView:
-		self.tabview._segmented_button._buttons_dict["Settings"].configure(font=(self.ui.FONT_BUTTONS, 12)) # TabView:Tab:Settings
+		self.tabview._segmented_button._buttons_dict["Settings"].configure(font=(self.ui.FONT_BUTTONS, 12), text_color=self.ui.CLR_BUTTON_TEXT_NORMAL) # TabView:Tab:Settings
 		# OptionMenu:
-		self.settings_timer_option_menu.configure(font=(self.ui.FONT_BUTTONS, 14), fg_color=self.ui.CLR_ACCENT_1, button_color=self.ui.CLR_ACCENT_2, button_hover_color=self.ui.CLR_ACCENT_3, values=["work".title(), "break".title()], command=self.settings_timer_option_menu_choice_handler)
+		self.settings_timer_option_menu.configure(font=(self.ui.FONT_BUTTONS, 14), text_color=self.ui.CLR_BUTTON_TEXT_NORMAL, fg_color=self.ui.CLR_ACCENT_1, button_color=self.ui.CLR_ACCENT_2, button_hover_color=self.ui.CLR_ACCENT_3, values=["work".title(), "break".title()], command=self.settings_timer_option_menu_choice_handler)
 		self.settings_timer_option_menu.set("work".title())
 		# Label:
 		self.settings_time_label.configure(font=("Bakbak One", 40, "bold"), text=None)

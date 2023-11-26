@@ -1,10 +1,14 @@
+import pygame
+
+
 class Controller:
 	def __init__(self, data, model, view):
 		# Connect data, model, view
 		self.data = data
 		self.model = model
 		self.view = view
-
+		
+		pygame.mixer.init()
 		self.load_timer_time()
 		self.load_settings_timer_time()
 		self.update_time_label()
@@ -62,6 +66,9 @@ class Controller:
 			if (self.model.hours, self.model.minutes, self.model.seconds) == (0, 0, 0):
 				self.model.status = False
 				self.view.after_cancel(self.model.id) # Stop model.count()
+				self.model.create_notify(mode=self.model.mode)
+				pygame.mixer.music.load("src/notify.mp3")
+				pygame.mixer.music.play(loops=0)
 				return None
 			else:
 				self.model.count()

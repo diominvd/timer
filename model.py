@@ -1,3 +1,6 @@
+from plyer import notification
+
+
 class Model:
 	def __init__(self, mode: str):
 		# Configure timer
@@ -46,3 +49,12 @@ class Model:
 			case "reset":
 				self.status = False
 		return self.status
+
+	def create_notify(self, mode) -> None:
+		title: str = f"{mode.title()} is over"
+		match mode:
+			case "work":
+				message: str = f"Time to take a break!"
+			case "break":
+				message: str = "It's time to get to work!"
+		notification.notify(title=title, message=message, app_name="Tomato Timer", app_icon=None, timeout=10, toast=False)
