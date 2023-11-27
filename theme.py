@@ -1,4 +1,6 @@
 import customtkinter as ctk
+import sys
+import os
 
 
 class Theme:
@@ -19,5 +21,15 @@ class Theme:
 		self.CLR_BUTTON_TEXT_DISABLED: str = CLR_BUTTON_TEXT_DISABLED
 
 		# Load fonts
-		ctk.FontManager.load_font("src/BakbakOne-Regular.ttf")
-		ctk.FontManager.load_font("src/Staatliches-Regular.ttf")
+		ctk.FontManager.load_font(self.resource_path("src/BakbakOne-Regular.ttf"))
+		ctk.FontManager.load_font(self.resource_path("src/Staatliches-Regular.ttf"))
+
+	def resource_path(self, relative_path):
+	    """ Get absolute path to resource, works for dev and for PyInstaller """
+	    try:
+	        # PyInstaller creates a temp folder and stores path in _MEIPASS
+	        base_path = sys._MEIPASS
+	    except Exception:
+	        base_path = os.path.abspath(".")
+
+	    return os.path.join(base_path, relative_path)

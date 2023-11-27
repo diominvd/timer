@@ -1,4 +1,6 @@
 import customtkinter as ctk
+import sys
+import os
 
 
 class View(ctk.CTk):
@@ -13,8 +15,13 @@ class View(ctk.CTk):
 		self.theme: str = self.data.load_themes()[data.load_current_theme()]
 
 		# Configure View
-		self.title("TomatoTimer")
-		self.geometry("220x340")
+		self.title("Pomodoro")
+		#self.wm_iconbitmap(self.data.resource_path("timer.ico"))
+		self.width = 230
+		self.height = 350
+		self.spawn_x = int((self.winfo_screenwidth()-self.width)/2) 
+		self.spawn_y = int((self.winfo_screenheight()-self.height)/2)
+		self.geometry(f"{self.width}x{self.height}+{self.spawn_x}+{self.spawn_y}")
 		self.resizable(width=False, height=False)
 		ctk.set_appearance_mode("dark")
 

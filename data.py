@@ -5,18 +5,30 @@ import theme
 
 class Data:
 	def __init__(self):
+		os.system("mkdir data")
 		self.create_data_file()
+		self.create_themes_file()
+
+	def resource_path(self, relative_path):
+	    """ Get absolute path to resource, works for dev and for PyInstaller """
+	    try:
+	        # PyInstaller creates a temp folder and stores path in _MEIPASS
+	        base_path = sys._MEIPASS
+	    except Exception:
+	        base_path = os.path.abspath(".")
+
+	    return os.path.join(base_path, relative_path)
 
 	def create_data_file(self) -> None:
 		if os.path.isfile("data/data.json"):
 			pass
 		else:
 			file = open("data/data.json", "w")
-			data: dict = {"timer": {"work": {"hours": 0, "minutes": 45, "seconds": 0}, "break": {"hours": 0, "minutes": 5, "seconds": 0}}, "theme": {"current_theme": "green"}}
+			data: dict = {"work": {"hours": 0, "minutes": 45, "seconds": 0}, "break": {"hours": 0, "minutes": 5, "seconds": 0}}
 			json.dump(data, file, indent=4)
 
 	def create_themes_file(self) -> None:
-		if os.path("data/themes.json"):
+		if os.path.isfile("data/themes.json"):
 			pass
 		else:
 			file = open("data/themes.json", "w")

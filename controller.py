@@ -71,7 +71,8 @@ class Controller:
 			if (self.model.hours, self.model.minutes, self.model.seconds) == (0, 0, 0):
 				self.model.status = False
 				self.view.after_cancel(self.model.id) # Stop model.count()
-				pygame.mixer.music.load("src/notify.mp3")
+				sound = self.data.resource_path("src/notify.mp3")
+				pygame.mixer.music.load(sound)
 				pygame.mixer.music.play(loops=0)
 				self.model.create_notify(mode=self.model.mode)
 				return None
