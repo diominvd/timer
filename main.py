@@ -3,9 +3,10 @@ from data import Data
 from model import Model
 from view import View
 
+
 data = Data()
 model = Model(mode="work")
-app = View(controller=None)
+app = View(controller=None, data=data)
 controller = Controller(data=data, model=model, view=app)
 # Add controller to view
 app.controller = controller
