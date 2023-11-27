@@ -59,9 +59,9 @@ class Controller:
 
 	def start_timer_button_event(self) -> None:
 		# Configure timer buttons:state
-		self.view.start_timer_button.configure(state="disabled", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_0)
-		self.view.pause_timer_butoon.configure(state="normal", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_1)
-		self.view.reset_timer_button.configure(state="normal", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_1)
+		self.view.start_timer_button.configure(state="disabled", fg_color=self.view.theme.CLR_ACCENT_0)
+		self.view.pause_timer_butoon.configure(state="normal", fg_color=self.view.theme.CLR_ACCENT_1)
+		self.view.reset_timer_button.configure(state="normal", fg_color=self.view.theme.CLR_ACCENT_1)
 		self.model.change_model_status(key="start")
 		self.update_timer()
 
@@ -95,9 +95,9 @@ class Controller:
 
 	def reset_timer(self) -> None:
 		# Configure timer buttons:state
-		self.view.start_timer_button.configure(state="normal", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_1)
-		self.view.pause_timer_butoon.configure(state="disabled", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_0)
-		self.view.reset_timer_button.configure(state="disabled", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_0)
+		self.view.start_timer_button.configure(state="normal", fg_color=self.view.theme.CLR_ACCENT_1)
+		self.view.pause_timer_butoon.configure(state="disabled", fg_color=self.view.theme.CLR_ACCENT_0)
+		self.view.reset_timer_button.configure(state="disabled", fg_color=self.view.theme.CLR_ACCENT_0)
 		# Configure pause_button:text
 		self.view.pause_timer_butoon.configure(text="Pause")
 		# Stop update_timer
@@ -114,13 +114,11 @@ class Controller:
 		self.model.count_settings(event)
 		mode: str = self.view.settings_timer_option_menu.get().lower()
 		data: dict = {
-			"timer": {
-				f"{mode}": 
-					{
-						"hours": self.model.settings_hours,
-						"minutes": self.model.settings_minutes,
-						"seconds": self.model.settings_seconds
-					}
+			f"{mode}": 
+				{
+					"hours": self.model.settings_hours,
+					"minutes": self.model.settings_minutes,
+					"seconds": self.model.settings_seconds
 				}
 			}
 		time: dict = self.data.data_analysis(data=data, key=mode)
@@ -129,30 +127,27 @@ class Controller:
 
 	def settings_timer_option_menu_event(self) -> None:
 		self.view.settings_time_label.unbind("<MouseWheel>")
-		self.view.settings_edit_button.configure(state="normal", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_1)
-		self.view.settings_save_button.configure(state="disabled", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_0)
-		self.view.settings_cancel_button.pack_forget()
+		self.view.settings_edit_button.configure(state="normal", text="Edit", fg_color=self.view.theme.CLR_ACCENT_1, command=self.view.settings_edit_button_click_handler)
+		self.view.settings_cancel_button.configure(state="disabled", text_color=self.view.theme.CLR_BUTTON_TEXT_DISABLED, fg_color=self.view.theme.CLR_ACCENT_0)
 		self.load_settings_timer_time()
 		self.update_settings_time_label()
 
 	def settings_edit_button_event(self) -> None:
 		self.view.settings_time_label.bind("<MouseWheel>", self.view.settings_time_label_scroll_handler)
-		self.view.settings_edit_button.configure(state="disabled", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_0)
-		self.view.settings_save_button.configure(state="normal", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_1)
-		self.view.settings_cancel_button.grid(row=4, column=0, padx=0, pady=(self.view.themes[self.view.theme].PADY, 0))
+		self.view.settings_edit_button.configure(text="Save", text_color=self.view.theme.CLR_BUTTON_TEXT_NORMAL, command=self.view.settings_save_button_click_handler)
+		self.view.settings_cancel_button.configure(state="normal", text_color=self.view.theme.CLR_BUTTON_TEXT_NORMAL, fg_color=self.view.theme.CLR_ACCENT_1)
 
 	def settings_save_button_event(self) -> None:
 		mode: str = self.view.settings_timer_option_menu.get().lower()
 		data: dict = self.data.load_data() # Return all data
-		data["timer"][mode]["hours"] = self.model.settings_hours
-		data["timer"][mode]["minutes"] = self.model.settings_minutes
-		data["timer"][mode]["seconds"] = self.model.settings_seconds
+		data[mode]["hours"] = self.model.settings_hours
+		data[mode]["minutes"] = self.model.settings_minutes
+		data[mode]["seconds"] = self.model.settings_seconds
 		self.data.write_data(data)
 		# Configure view
 		self.view.settings_time_label.unbind("<MouseWheel>")
-		self.view.settings_edit_button.configure(state="normal", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_1)
-		self.view.settings_save_button.configure(state="disabled", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_0)
-		self.view.settings_cancel_button.grid_forget()
+		self.view.settings_edit_button.configure(text="Edit", text_color=self.view.theme.CLR_BUTTON_TEXT_NORMAL, command=self.view.settings_edit_button_click_handler)
+		self.view.settings_cancel_button.configure(state="disabled", text_color=self.view.theme.CLR_BUTTON_TEXT_DISABLED, fg_color=self.view.theme.CLR_ACCENT_0)
 		self.load_settings_timer_time()
 		self.update_settings_time_label()
 		# Check timer status
@@ -164,9 +159,8 @@ class Controller:
 
 	def settings_cancel_button_event(self) -> None:
 		self.view.settings_time_label.unbind("<MouseWheel>")
-		self.view.settings_edit_button.configure(state="normal", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_1)
-		self.view.settings_save_button.configure(state="disabled", fg_color=self.view.themes[self.view.theme].CLR_ACCENT_0)
-		self.view.settings_cancel_button.grid_forget()
+		self.view.settings_edit_button.configure(text="Edit", text_color=self.view.theme.CLR_BUTTON_TEXT_NORMAL, command=self.view.settings_edit_button_click_handler)
+		self.view.settings_cancel_button.configure(state="disabled", text_color=self.view.theme.CLR_BUTTON_TEXT_DISABLED, fg_color=self.view.theme.CLR_ACCENT_0)
 		self.load_settings_timer_time()
 		self.update_settings_time_label()
 

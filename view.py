@@ -14,7 +14,7 @@ class View(ctk.CTk):
 
 		# Configure View
 		self.title("TomatoTimer")
-		self.geometry("220x360")
+		self.geometry("220x340")
 		self.resizable(width=False, height=False)
 		ctk.set_appearance_mode("dark")
 
@@ -37,7 +37,6 @@ class View(ctk.CTk):
 		self.settings_time_label = ctk.CTkLabel(self.tabview.tab("  Settings  "))
 		self.settings_timer_option_menu = ctk.CTkOptionMenu(self.tabview.tab("  Settings  "))
 		self.settings_edit_button = ctk.CTkButton(self.tabview.tab("  Settings  "))
-		self.settings_save_button = ctk.CTkButton(self.tabview.tab("  Settings  "))
 		self.settings_cancel_button = ctk.CTkButton(self.tabview.tab("  Settings  "))
 		self.settings_theme_label = ctk.CTkLabel(self.tabview.tab("  Settings  "))
 		self.settings_theme_option_menu = ctk.CTkOptionMenu(self.tabview.tab("  Settings  "))
@@ -76,8 +75,7 @@ class View(ctk.CTk):
 		self.settings_theme_label.configure(font=(self.theme.FONT_TEXT, 14), text="Theme settings")
 		# Buttons
 		self.settings_edit_button.configure(state="normal", font=(self.theme.FONT_TEXT, 14), text="Edit", command=self.settings_edit_button_click_handler)
-		self.settings_save_button.configure(state="disabled", font=(self.theme.FONT_TEXT, 14), text="Save", command=self.settings_save_button_click_handler)
-		self.settings_cancel_button.configure(state="normal", font=(self.theme.FONT_TEXT, 14), text="Cancel", command=self.settings_cancel_button_click_handler)
+		self.settings_cancel_button.configure(state="disabled", font=(self.theme.FONT_TEXT, 14), text="Cancel", command=self.settings_cancel_button_click_handler)
 
 	def configure_widgets_colors(self) -> None:
 		# TabView
@@ -94,8 +92,7 @@ class View(ctk.CTk):
 		self.settings_time_label.configure(text_color=self.theme.CLR_TEXT)
 		self.settings_timer_option_menu.configure(text_color=self.theme.CLR_BUTTON_TEXT_NORMAL, fg_color=self.theme.CLR_ACCENT_1, button_color=self.theme.CLR_ACCENT_2, button_hover_color=self.theme.CLR_ACCENT_3)
 		self.settings_edit_button.configure(text_color=self.theme.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.theme.CLR_BUTTON_TEXT_DISABLED, fg_color=self.theme.CLR_ACCENT_1, hover_color=self.theme.CLR_ACCENT_3)
-		self.settings_save_button.configure(text_color=self.theme.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.theme.CLR_BUTTON_TEXT_DISABLED, fg_color=self.theme.CLR_ACCENT_0, hover_color=self.theme.CLR_ACCENT_3)
-		self.settings_cancel_button.configure(text_color=self.theme.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.theme.CLR_BUTTON_TEXT_DISABLED, fg_color=self.theme.CLR_ACCENT_1, hover_color=self.theme.CLR_ACCENT_3)
+		self.settings_cancel_button.configure(text_color=self.theme.CLR_BUTTON_TEXT_NORMAL, text_color_disabled=self.theme.CLR_BUTTON_TEXT_DISABLED, fg_color=self.theme.CLR_ACCENT_0, hover_color=self.theme.CLR_ACCENT_3)
 		self.settings_theme_label.configure(text_color=self.theme.CLR_TEXT)
 		self.settings_theme_option_menu.configure(text_color=self.theme.CLR_BUTTON_TEXT_NORMAL, fg_color=self.theme.CLR_ACCENT_1, button_color=self.theme.CLR_ACCENT_2, button_hover_color=self.theme.CLR_ACCENT_3)
 
@@ -110,7 +107,8 @@ class View(ctk.CTk):
 		self.settings_time_label.grid(row=0, column=0, padx=0, pady=self.theme.PADY*2)
 		self.settings_timer_option_menu.grid(row=1, column=0, padx=0, pady=self.theme.PADY)
 		self.settings_edit_button.grid(row=2, column=0, padx=0, pady=self.theme.PADY)
-		self.settings_save_button.grid(row=3, column=0, padx=0, pady=self.theme.PADY)
+		# self.settings_save_button.grid(row=3, column=0, padx=0, pady=self.theme.PADY)
+		self.settings_cancel_button.grid(row=4, column=0, padx=0, pady=self.theme.PADY)
 		self.settings_theme_label.grid(row=5, column=0, padx=0, pady=(self.theme.PADY*2, 0))
 		self.settings_theme_option_menu.grid(row=6, column=0, padx=0, pady=self.theme.PADY)
 

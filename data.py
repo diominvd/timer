@@ -15,6 +15,14 @@ class Data:
 			data: dict = {"timer": {"work": {"hours": 0, "minutes": 45, "seconds": 0}, "break": {"hours": 0, "minutes": 5, "seconds": 0}}, "theme": {"current_theme": "green"}}
 			json.dump(data, file, indent=4)
 
+	def create_themes_file(self) -> None:
+		if os.path("themes.json"):
+			pass
+		else:
+			file = open("themes.json", "w")
+			data: dict = {"themes": {"lime": ["#daff73", "#c2ff1c", "#ace219", "#99c916", "#ffffff", "#383838", "#4e4e4e"], "cyan": ["#b0fffc", "#00fff6", "#00d6ce", "#00b3ad", "#ffffff", "#383838", "#4e4e4e"], "ocean": ["#6eabff", "#006aff", "#005ad7", "#004cb6", "#ffffff", "#383838", "#4e4e4e"], "red": ["#ff6c9d", "#ff0055", "#d10046", "#a80038", "#ffffff", "#383838", "#4e4e4e"], "orange": ["#ffbb80", "#ff7700", "#da6600", "#ba5700", "#ffffff", "#383838", "#4e4e4e"]}, "current_theme": "cyan"}
+			json.dump(data, file, indent=4)
+
 	def load_themes(self) -> dict:
 		with open("themes.json", "r") as file:
 			themes: dict = json.load(file)["themes"]
